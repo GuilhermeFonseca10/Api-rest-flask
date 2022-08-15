@@ -2,7 +2,7 @@ import jwt
 import datetime
 from config import app
 from functools import wraps
-from models import entities
+from models import tabelas
 from flask import jsonify, make_response, request
 from werkzeug.security import check_password_hash
 
@@ -16,7 +16,7 @@ def token_required(f):
           return jsonify({'message' : 'Token is missing!'}), 401
       try: 
           data = jwt.decode(token, app.config["SECRET_KEY"], options={"verify_signature": False})
-          current_rest = entities.Restaurants.query.filter_by(public_id = data["public_id"]).first()
+          current_rest = tabelas.Lojas.query.filter_by(public_id = data["public_id"]).first()
       except:
           return jsonify({'message' : 'Token is invalid!'}), 401
       return f(current_rest, *args, **kwargs)
@@ -26,7 +26,7 @@ def restaurants_login():
   auth = request.authorization
   if not auth or not auth.username or not auth.password:
     return make_response('Could not verify', 401, {"Error": "Login required"})
-  rest  = entities.Restaurants.query.filter_by(email=auth.username).first_or_404()
+  rest  = tabelas.Lojas.query.filter_by(email=auth.username).first_or_404()
 
   if check_password_hash(rest.password, auth.password):
     payload = {

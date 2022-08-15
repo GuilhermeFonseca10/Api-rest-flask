@@ -1,6 +1,6 @@
 from config import db
 
-class Usuarios(db.Model):
+class Lojas(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(50))
     cpf = db.Column(db.Integer)
