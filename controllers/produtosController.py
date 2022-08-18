@@ -14,3 +14,6 @@ def update(id):
 
 def delete(id):
   return produtosModel.soft_delete(id)
+
+def remover_quantidade(id):
+  return produtosModel.remover_quantidade(id)

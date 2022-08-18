@@ -1,6 +1,10 @@
+from datetime import datetime
 from config import db
 from .tabelas import Lojas
 from flask import jsonify, request
+import datetime
+import jwt
+from config import app
 
 def get_all():
   addrs = Lojas.query.all()
@@ -18,13 +22,19 @@ def insert():
     addr = Lojas (
       nome = body["nome"],
       cpf = body["cpf"],
-      email = body["email"],
-      data = body["data"]    
+      email = body["email"]
+     
+
     )
-    
     db.session.add(addr)
     db.session.commit()
-    return "Loja Cadastrada com sucesso.", 201
+    payload = {
+      "id": addr.id,
+      "exp": datetime.datetime.utcnow()
+    }
+    token = jwt.encode(payload, app.config['SECRET_KEY'])
+
+    return jsonify(token.decode('UTF-8')), 201
   return {"error": "Request must be JSON"}, 415
 
 

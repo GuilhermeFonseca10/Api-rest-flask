@@ -22,3 +22,7 @@ def update_produto(id):
 @app.route("/produtos/<int:id>", methods=["DELETE"])
 def delete_produtos(id):
   return produtosController.delete(id) 
+
+@app.route("/quantidade/<int:id>", methods=["PUT"])
+def remover_quantidade(id):
+  return produtosController.remover_quantidade(id) 
