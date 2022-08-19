@@ -15,7 +15,7 @@ def token_required(f):
       if not token: 
           return jsonify({'message' : 'Token is missing!'}), 401
       try: 
-          data = jwt.decode(token, app.config["SECRET_KEY"], options={"verify_signature": False})
+          data = jwt.decode(token, app.config["SECRET_KEY"], options={"verify_signature": False}, algorithms=['SHA256'])
         
       except:
           return jsonify({'message' : 'Token is invalid!'}), 401

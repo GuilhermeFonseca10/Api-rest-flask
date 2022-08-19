@@ -5,6 +5,7 @@ from flask import jsonify, request
 
 def get_all():
   produtos = Produtos.query.all()
+  print(request.headers)
   return jsonify([produto.to_json() for produto in produtos]), 200
 
 def get_by_id(id):
@@ -36,6 +37,7 @@ def insert():
       produto.descricao = body["descricao"]
     if("lojas_id" in body):
         produto.lojas_id = body["lojas_id"]
+    
     db.session.add(produto)
     db.session.commit()
     return "Produto Cadastrado.", 201
@@ -69,7 +71,7 @@ def soft_delete(id):
   produto = Produtos.query.get(id)
   if produto is None:
       return {"error": "Not found"}, 404
-  produto.active = False   
+  produto.status = False   
   db.session.add(produto)
   db.session.commit()
   return "Deletado com sucesso", 200

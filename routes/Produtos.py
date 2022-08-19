@@ -1,9 +1,11 @@
 from flask import Blueprint
 from controllers import produtosController
+from auth import token_required
 
 app=Blueprint('produtos', __name__)
 
 @app.route("/produtos", methods=["GET"])
+
 def get_produtos():
   return produtosController.get_all()
 
@@ -12,6 +14,7 @@ def get_produtos_by_id(id):
   return produtosController.get_by_id(id)
 
 @app.route("/produtos", methods=["POST"])
+
 def insert_produto():
   return produtosController.insert()
 
